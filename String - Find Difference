@@ -28,7 +28,7 @@ t.length == s.length + 1
 s and t consist of lower-case English letters.
 
 -----------------------------
-
+71% faster
 class Solution {
 public:
     char findTheDifference(string s, string t) {
@@ -37,5 +37,20 @@ public:
             ans^=sum[i];
         }
         return ans;
+    }
+};
+
+------------------------------
+class Solution {
+public:
+    char findTheDifference(string s, string t) {
+        int xor_s=0, xor_t = 0;
+        for (int i = 0; i < s.length(); i++)
+               xor_s = xor_s ^ s[i];
+        for (int i = 0; i < t.length(); i++)
+            xor_t = xor_t ^ t[i];
+        
+        return (xor_t ^ xor_s);
+        
     }
 };
