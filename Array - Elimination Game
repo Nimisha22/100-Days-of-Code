@@ -1,0 +1,67 @@
+390. Elimination Game
+Difficulty:Medium
+You have a list arr of all integers in the range [1, n] sorted in a strictly increasing order. Apply the following algorithm on arr:
+
+Starting from left to right, remove the first number and every other number afterward until you reach the end of the list.
+Repeat the previous step again, but this time from right to left, remove the rightmost number and every other number 
+from the remaining numbers.
+Keep repeating the steps again, alternating left to right and right to left, until a single number remains.
+Given the integer n, return the last number that remains in arr.
+
+Example 1:
+Input: n = 9
+Output: 6
+Explanation:
+arr = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+arr = [2, 4, 6, 8]
+arr = [2, 6]
+arr = [6]
+
+Example 2:
+Input: n = 1
+Output: 1
+
+Constraints:
+1 <= n <= 109
+
+------------------------------------------------------------------
+
+class Solution {
+public:
+	// first of all we have to go from left to right
+	// then we have to check if only one element is left after this iteration or we need to go for further iterations
+	// then we will go from right to left (if required)
+	
+	// repeat this process until only one element is left in series
+    int lastRemaining(int n) {
+		// we set two pointers l and r that are current leftmost and rightmost numbers
+		// and gap shows the difference between elements of current series left
+        int l=1, r=n, gap=1;
+        while(l<r){
+			// if difference between rightmost element and  leftmost element is divisible by 2*gap
+			// it means that rightmost element will be removed in this left to right iteration
+			// so, we need to update rightmost element
+            if(((r-l)%(gap<<1))==0)r=r-gap;
+			// update leftmost element
+            l+=gap;
+            
+			// check if base case is hit or not (i.e. only one element is left in series)
+			// if yes, break the loop
+            if(l==r)break;
+            
+			// for right to left iteration, gap will be doubled as alternate elements are removed in left to right iteration
+            gap=(gap<<1);
+            
+			// if difference between rightmost element and  leftmost element is divisible by 2*gap
+			// it means that leftmost element will be removed in this right to left iteration
+			// so, we need to update leftmost element
+            if(((r-l)%(gap<<1))==0)l+=gap;
+			// update rightmost element
+            r=r-gap;
+            
+			// double gap for next iteration as alternate elements are removed in previous iteration
+            gap=(gap<<1);
+        }
+        return l;
+    }
+};
