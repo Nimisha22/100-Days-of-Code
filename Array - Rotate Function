@@ -29,7 +29,7 @@ n == nums.length
 -100 <= nums[i] <= 100
 
 --------------------------------------------------
-
+58% faster
 class Solution {
 public:
 
@@ -61,5 +61,24 @@ i.e disappears from the first rotate sum in a way and each of the other element 
         }
         return m;
     }
-	
+};
+
+----------------------
+
+class Solution {
+public:
+    int maxRotateFunction(vector<int>& nums) {
+        ios::sync_with_stdio(false);
+        cin.tie(nullptr);
+        int n=nums.size(), sum=nums[0], f=0;
+        for(int i=1; i<n; ++i) {
+            sum+=nums[i];
+            f+=i*nums[i];//f0
+        }
+        for(int i=0, ff=f; i<n-1; ++i) {
+            ff+=n*nums[i]-sum;
+            f=max(f,ff);
+        }
+        return f;
+    }
 };
