@@ -1,0 +1,65 @@
+396. Rotate Function
+You are given an integer array nums of length n.
+
+Assume arrk to be an array obtained by rotating nums by k positions clock-wise. 
+We define the rotation function F on nums as follow:
+
+F(k) = 0 * arrk[0] + 1 * arrk[1] + ... + (n - 1) * arrk[n - 1].
+Return the maximum value of F(0), F(1), ..., F(n-1).
+
+The test cases are generated so that the answer fits in a 32-bit integer.
+
+Example 1:
+Input: nums = [4,3,2,6]
+Output: 26
+Explanation:
+F(0) = (0 * 4) + (1 * 3) + (2 * 2) + (3 * 6) = 0 + 3 + 4 + 18 = 25
+F(1) = (0 * 6) + (1 * 4) + (2 * 3) + (3 * 2) = 0 + 4 + 6 + 6 = 16
+F(2) = (0 * 2) + (1 * 6) + (2 * 4) + (3 * 3) = 0 + 6 + 8 + 9 = 23
+F(3) = (0 * 3) + (1 * 2) + (2 * 6) + (3 * 4) = 0 + 2 + 12 + 12 = 26
+So the maximum value of F(0), F(1), F(2), F(3) is F(3) = 26.
+
+Example 2:
+Input: nums = [100]
+Output: 0
+ 
+Constraints:
+n == nums.length
+1 <= n <= 105
+-100 <= nums[i] <= 100
+
+--------------------------------------------------
+
+class Solution {
+public:
+
+/*So we need to first calculate first rotate sum.after then we will updating rotation sum by first rotate 
+sum+(total sum of nums-length*last value of nums):-
+Let us suppose we have [4,3,2,6]
+then first rotate sum=25,total sum=15
+now in each rotation the last most element will come to position 0 
+i.e disappears from the first rotate sum in a way and each of the other element will be added once. */
+    
+    int maxRotateFunction(vector<int>& nums) {
+        //initialising variables
+        int m=0,secondR=0,firstR=0,sum=0,n=nums.size()-1;
+        
+        //calculating first rotate sum and sum
+        for(int i=0;i<nums.size();i++)
+            firstR+=nums[i]*i,sum+=nums[i];
+        m=firstR;
+        int k=nums.size()-1;
+        int j=k;
+        
+        //updating first rotate sum and comparing with previous sum to have the max of all.
+        while(k--) {
+            int updatedsum=sum-nums[j];
+            secondR=firstR+(updatedsum-nums[j]*n);
+            m=max(m,secondR);
+            firstR=secondR;
+            j--;
+        }
+        return m;
+    }
+	
+};
