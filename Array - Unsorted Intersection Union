@@ -1,0 +1,105 @@
+INTERSECTION & UNION OF UNORTED ARRAY
+
+Union 
+
+Initialize an empty hash set hs.
+Iterate through the first array and put every element of the first array in the set S.
+Repeat the process for the second array.
+Print the set hs.
+Intersection 
+
+Initialize an empty set hs.
+Iterate through the first array and put every element of the first array in the set S.
+For every element x of the second array, do the following :
+Search x in the set hs. If x is present, then print it. Time complexity of this method is ?
+(m+n) under the assumption that hash table search and insert operations take ?(1) time.
+
+#include <bits/stdc++.h>
+using namespace std;
+
+void printUnion(int arr1[], int arr2[], int n1, int n2) {
+	set<int> hs;
+
+	// Insert the elements of arr1[] to set hs
+	for (int i = 0; i < n1; i++)
+		hs.insert(arr1[i]);
+
+	// Insert the elements of arr2[] to set hs
+	for (int i = 0; i < n2; i++)
+		hs.insert(arr2[i]);
+
+	// Print the content of set hs
+	for (auto it = hs.begin(); it != hs.end(); it++)
+		cout << *it << " ";
+	cout << endl;
+}
+
+
+void printIntersection(int arr1[], int arr2[], int n1, int n2) {
+	set<int> hs;
+
+	// Insert the elements of arr1[] to set S
+	for (int i = 0; i < n1; i++)
+		hs.insert(arr1[i]);
+
+	for (int i = 0; i < n2; i++)
+
+		// If element is present in set then
+		// push it to vector V
+		if (hs.find(arr2[i]) != hs.end())
+			cout << arr2[i] << " ";
+}
+
+
+int main() {
+	int arr1[] = { 7, 1, 5, 2, 3, 6 };
+	int arr2[] = { 3, 8, 6, 20, 7 };
+	int n1 = sizeof(arr1) / sizeof(arr1[0]);
+	int n2 = sizeof(arr2) / sizeof(arr2[0]);
+
+	printUnion(arr1, arr2, n1, n2);
+	printIntersection(arr1, arr2, n1, n2);
+
+	return 0;
+}
+
+----------------------------------------------
+
+// C++ code to find intersection when
+// elements may not be distinct
+#include <bits/stdc++.h>
+
+using namespace std;
+
+void intersection(int a[], int b[], int n, int m) {
+	int i = 0, j = 0;
+	while (i < n && j < m) {
+		if (a[i] > b[j]) {
+			j++;
+		}
+		else if (b[j] > a[i]) {
+			i++;
+		}
+		else {
+			
+			// when both are equal
+			cout << a[i] << " ";
+			i++;
+			j++;
+		}
+	}
+}
+
+
+int main() {
+	int a[] = { 1, 3, 2, 3, 3, 4, 5, 5, 6 };
+	int b[] = { 3, 3, 5 };
+
+	int n = sizeof(a) / sizeof(a[0]);
+	int m = sizeof(b) / sizeof(b[0]);
+
+	sort(a, a + n);
+	sort(b, b + m);
+	intersection(a, b, n, m);
+}
+
